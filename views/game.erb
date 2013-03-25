@@ -1,0 +1,17 @@
+<h2>Blackjack is in session</h2>
+
+Hi <%= session[:username] %>. You have:
+ <ul>
+ 	<% session[:player_cards].each do |c| %>
+ 		<li><%= c.to_s %></li>
+ 	<% end %>
+
+ </ul>
+
+ The dealer has:
+ Your cards:
+ <ul>
+ 	<% session[:dealer_cards].each do |c| %>
+ 		<li><%= c.to_s %></li>
+ 	<% end %>
+ </ul>
