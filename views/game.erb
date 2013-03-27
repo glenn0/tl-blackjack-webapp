@@ -5,13 +5,30 @@ Hi <%= session[:username] %>. You have:
  	<% session[:player_cards].each do |c| %>
  		<li><%= c.to_s %></li>
  	<% end %>
-
  </ul>
 
+Making a total of: <%= card_valuer(session[:player_cards]).to_s %>
+
+ <br />
+ <br />
+
  The dealer has:
- Your cards:
  <ul>
  	<% session[:dealer_cards].each do |c| %>
  		<li><%= c.to_s %></li>
  	<% end %>
  </ul>
+
+Making a total of: <%= card_valuer(session[:dealer_cards]).to_s %>
+
+<br />
+<br />
+
+
+<form action='/hit' method='post'>
+	<input type='submit' class='btn' color='red' value="Hit"/>
+</form>
+
+<form action='/stay' method='post'>
+	<input type='submit' class='btn' value="Stay"/>
+</form>

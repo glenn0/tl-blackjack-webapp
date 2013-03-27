@@ -4,6 +4,25 @@ require 'shotgun'
 
 set :sessions, true
 
+helpers do
+  def card_valuer(cards)
+  	array = cards.map{|x| x[1]}
+
+  	cards_val = 0
+  	array.each do |val|
+      if val == "A"
+	    cards_val += 11
+	  elsif val.to_i == 0 #For J, K, Q
+	    cards_val += 10
+	  else
+	    cards_val += val.to_i
+	  end
+	end
+
+    cards_val
+  end
+end
+		
 get '/' do
   if session[:username]
     redirect '/game'
@@ -30,11 +49,41 @@ get '/game' do
   # deal cards
     session[:dealer_cards] = []
     session[:player_cards] = []
-    session[:dealer_cards] << session[:deck].pop
+    # deal player
     session[:player_cards] << session[:deck].pop
-    session[:dealer_cards] << session[:deck].pop
     session[:player_cards] << session[:deck].pop
-    # player cards
+    # deal dealer
+    session[:dealer_cards] << session[:deck].pop
+    session[:dealer_cards] << session[:deck].pop
 
   erb :game
+end
+
+post '/hit' do
+  session[:player_cards] << session[:deck].pop
+
+  if card_valuer(session[:player_cards]) <= 21
+    redirect '/playon'
+  else
+    redirect '/bust'
+  end
+end
+
+post '/stay' do
+  redirect '/playon'
+end
+
+get '/playon' do
+  erb :game
+end
+
+get '/logout' do
+  session[:old_user] = session[:username]
+  session[:username] = nil
+
+  erb :logout
+end
+
+get '/bust' do
+  "You bust."
 end
