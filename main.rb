@@ -1,6 +1,9 @@
 require 'rubygems'
 require 'sinatra'
-require 'shotgun'
+
+group :development do
+  require 'shotgun'
+end
 
 set :sessions, true
 
