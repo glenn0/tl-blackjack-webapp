@@ -86,5 +86,5 @@ get '/logout' do
 end
 
 get '/bust' do
-  "You bust."
+  erb :bust
 end
