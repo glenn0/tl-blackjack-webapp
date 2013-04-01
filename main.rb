@@ -1,4 +1,4 @@
-require 'rubygems'
+require https://rubygems.org
 require 'sinatra'
 
 group :development do
