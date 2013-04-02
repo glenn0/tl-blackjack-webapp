@@ -3,7 +3,8 @@
 You have:
  <ul>
   <% session[:player_cards].each do |c| %>
-    <li><%= c.to_s %></li>
+    <!-- <li><%= c.to_s %></li> -->
+    <img src="<%= card_imager(c) %>">
   <% end %>
  </ul>
 
@@ -15,7 +16,8 @@ Making a total of: <%= card_valuer(session[:player_cards]).to_s %>
  The dealer has:
  <ul>
   <% session[:dealer_cards].each do |c| %>
-    <li><%= c.to_s %></li>
+    <!-- <li><%= c.to_s %></li> -->
+    <img src="<%= card_imager(c) %>">
   <% end %>
  </ul>
 

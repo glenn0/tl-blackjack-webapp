@@ -3,8 +3,8 @@
 Hi <%= session[:username] %>. You have:
  <ul>
  	<% session[:player_cards].each do |c| %>
- 		<li><%= c.to_s %></li>
-    <li><img src="<%= card_imager(c) %>">
+ 		<!-- <li><%= c.to_s %></li> -->
+    <img src="<%= card_imager(c) %>">
  	<% end %>
  </ul>
 
@@ -15,10 +15,11 @@ Hi <%= session[:username] %>. You have:
 
  The dealer has:
  <ul>
- 	<li>Hidden</li>
-  <li><img src="/images/cards/cover.jpg">
-  <li><%=session[:dealer_cards][1].to_s %></li>
-  <li><img src="<%= card_imager(session[:dealer_cards][1]) %>">
+ 	<!-- <li>Hidden</li> -->
+  <img src="/images/cards/cover.jpg">
+  
+  <!-- <li><%=session[:dealer_cards][1].to_s %></li> -->
+  <img src="<%= card_imager(session[:dealer_cards][1]) %>">
  </ul>
 
 <br />
