@@ -11,14 +11,19 @@ helpers do
 
   	cards_val = 0
   	array.each do |val|
-      if val == "A"
-	    cards_val += 11
-	  elsif val.to_i == 0 #For J, K, Q
-	    cards_val += 10
-	  else
-	    cards_val += val.to_i
-	  end
+      if val == "Ace"
+  	    cards_val += 11
+  	  elsif val.to_i == 0 #For J, K, Q
+  	    cards_val += 10
+  	  else
+  	    cards_val += val.to_i
+  	  end
 	end
+
+    array.select{|val| val == "Ace"}.count.times do
+      break if cards_val <= 21
+      cards_val -= 10
+    end
 
     cards_val
   end
