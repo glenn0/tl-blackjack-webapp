@@ -22,6 +22,12 @@ helpers do
 
     cards_val
   end
+
+  def card_imager(card)
+      suit = card[0].to_s.downcase
+      face_val = card[1].to_s.downcase
+      "/images/cards/"+suit+"_"+face_val+".jpg"
+  end
 end
 		
 get '/' do
@@ -45,7 +51,7 @@ end
 get '/game' do
   # deck
     suits = ['Hearts', 'Clubs', 'Diamonds', 'Spades']
-    face_val = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
+    face_val = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King', 'Ace']
     session[:deck] = suits.product(face_val).shuffle!
   # deal cards
     session[:dealer_cards] = []
@@ -57,6 +63,7 @@ get '/game' do
     session[:dealer_cards] << session[:deck].pop
     session[:dealer_cards] << session[:deck].pop
 
+  session[:card_hide] = true
   erb :game
 end
 
@@ -66,16 +73,41 @@ post '/hit' do
   if card_valuer(session[:player_cards]) <= 21
     redirect '/playon'
   else
-    redirect '/bust'
+    redirect '/pick_a_winner'
+  end
+end
+
+post '/dealer_hit' do
+  session[:dealer_cards] << session[:deck].pop
+
+  if card_valuer(session[:dealer_cards]) == 21
+    redirect '/pick_a_winner'
+  elsif card_valuer(session[:dealer_cards]) > 21
+    redirect '/pick_a_winner'
+  elsif card_valuer(session[:dealer_cards]) >= 17
+    redirect '/pick_a_winner'
+  else
+    redirect '/dealer_playon'
   end
 end
 
 post '/stay' do
-  redirect '/playon'
+  if card_valuer(session[:dealer_cards]) == 21
+    redirect '/pick_a_winner'
+  elsif card_valuer(session[:dealer_cards]) >= 17
+    redirect '/pick_a_winner'
+  else
+    redirect '/dealer_playon'
+  end
 end
 
 get '/playon' do
   erb :game
+end
+
+get '/dealer_playon' do
+  session[:dealer_hide] = false
+  erb :game_dealerturn
 end
 
 get '/logout' do
@@ -85,6 +117,26 @@ get '/logout' do
   erb :logout
 end
 
-get '/bust' do
-  erb :bust
+get '/pick_a_winner' do
+  if card_valuer(session[:player_cards]) == 21 && card_valuer(session[:dealer_cards]) != 21
+    session[:result] = "You've got Blackjack!"
+  elsif card_valuer(session[:player_cards]) == 21 && card_valuer(session[:dealer_cards]) == 21
+    session[:result] = "It's a draw."
+  elsif card_valuer(session[:player_cards]) > 21
+    session[:result] = "You bust."
+  elsif card_valuer(session[:dealer_cards]) > 21 && card_valuer(session[:player_cards]) <= 21
+    session[:result] = "Dealer busts, you win!"
+  elsif card_valuer(session[:player_cards]) > card_valuer(session[:dealer_cards]) && card_valuer(session[:player_cards]) <= 21
+    session[:result] = "You win!"
+  elsif card_valuer(session[:dealer_cards]) > card_valuer(session[:player_cards]) && card_valuer(session[:dealer_cards]) <= 21
+    session[:result] = "Dealer wins."
+  else
+    session[:result] = "It's a draw."
+  end
+
+  redirect '/result'
+end
+
+get '/result' do
+  erb :result
 end
