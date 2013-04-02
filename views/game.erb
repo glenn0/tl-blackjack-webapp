@@ -25,11 +25,17 @@ Hi <%= session[:username] %>. You have:
 <br />
 <br />
 
-
+<table>
+<tr>
+  <td>
 <form action='/hit' method='post'>
 	<input type='submit' class='btn' color='red' value="Hit"/>
 </form>
-
+  </td>
+  <td>
 <form action='/stay' method='post'>
 	<input type='submit' class='btn' value="Stay"/>
 </form>
+  </td>
+  </tr>
+</table>
