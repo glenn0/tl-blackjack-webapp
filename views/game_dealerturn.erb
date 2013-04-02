@@ -1,0 +1,30 @@
+<h2>Blackjack is in session</h2>
+
+Hi <%= session[:username] %>. You have:
+ <ul>
+  <% session[:player_cards].each do |c| %>
+    <li><%= c.to_s %></li>
+  <% end %>
+ </ul>
+
+Making a total of: <%= card_valuer(session[:player_cards]).to_s %>
+
+ <br />
+ <br />
+
+ The dealer has:
+ <ul>
+  <% session[:dealer_cards].each do |c| %>
+    <li><%= c.to_s %></li>
+  <% end %>
+ </ul>
+
+Making a total of: <%= card_valuer(session[:dealer_cards]).to_s %>
+
+<br />
+<br />
+
+
+<form action='/dealer_hit' method='post'>
+  <input type='submit' class='btn' color='red' value="Next Dealer Card"/>
+</form>
